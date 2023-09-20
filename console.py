@@ -118,8 +118,10 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             # print("** class name missing **")
             return
+        # Split the input arguments into a list
         args_list = args.split(' ')
         class_name = args_list[0]
+        # Check if the class name is valid
         if class_name not in HBNBCommand.classes:
             return
 
@@ -157,7 +159,7 @@ class HBNBCommand(cmd.Cmd):
                         continue
                 if (hasattr(new_instance, paramKey)):
                     setattr(new_instance, paramKey, paramValue)
-                    
+        # Save the instance and print its ID           
         new_instance.save()
         print(new_instance.id)
     def help_create(self):
