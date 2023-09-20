@@ -113,60 +113,61 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, line):
-        """
-        Usage: create <class> <key 1>=<value 2> <key 2>=<value 2> ...
-        Create a new class instance with the given keys and values and print its id.
-        """
-        try:
-            if not line:
-                raise SyntaxError("Class name is missing")
-            # Split the input line into a list of words
-            my_list = line.split(" ")
-            # Create a dictionary to store keyword arguments
-        kwargs = {}
+    def do_create(self, args):
+        """Create an object of any class"""
+        if not args:
+            # print("** class name missing **")
+            return
+        args_list = args.split(' ')
+        class_name = args_list[0]
+        if class_name not in HBNBCommand.classes:
+            # print("** class doesn't exist **")
+            return
 
-        # Iterate through the words in the list starting from index 1
-        for i in range(1, len(my_list)):
-            key, value = tuple(my_list[i].split("="))
+        # create an instance of the class passed
 
-            # Check if the value is enclosed in double quotes and clean it
-            if value[0] == '"':
-                value = value.strip('"').replace("_", " ")
-            else:
-                try:
-                    # Try to evaluate the value as a Python expression
-                    value = eval(value)
-                except (SyntaxError, NameError):
-                    # Ignore errors and continue to the next key-value pair
-                    continue
+        # print(f"\n\tDo_create\n")
+        new_instance = HBNBCommand.classes[class_name]()
+        # print(f"\n\tNew instance:{type(new_instance)}\n")
+        # iterate from index 1, excluding the class_name,
+        # since it isn't a parameter
+        for params in (args_list[1:]):
+            parameter = params.split('=')
+            # check that params is correctly entered
+            if len(parameter) == 2:
 
-            # Store the key-value pair in the kwargs dictionary
-            kwargs[key] = value
+                # get the key entered as parameter by the user
+                paramKey = parameter[0]
+                # get the value entered as parameter by the user
+                paramValue = parameter[1].replace('_', ' ')
+                # set attribute w values of the params entered
 
-        if 'updated_at' not in kwargs:
-            # Add a default 'updated_at' value if it's missing
-            kwargs['updated_at'] = datetime.now()
+                if (len(paramValue) >= 2 and paramValue[0] == '"' and paramValue[-1] == '"'):
+                    # Remove surrounding quotes
+                    paramValue = paramValue[1:-1]
+                    # Replace escaped quotes
+                    paramValue = paramValue.replace('\\"', '"')
 
-        if kwargs == {}:
-            # Create an object of the specified class without arguments
-            obj = eval(my_list[0])()
-        else:
-            # Create an object of the specified class with the provided kwargs
-            obj = eval(my_list[0])(**kwargs)
-            storage.new(obj)
+                # check if paramvalue is float
+                elif '.' in paramValue:
+                    try:
+                        paramValue = float(paramValue)
+                    except ValueError:
+                        continue
 
-        # Print the id of the created object
-        print(obj.id)
+                # check if paramValue if float
+                else:
+                    try:
+                        paramValue = int(paramValue)
+                    except ValueError:
+                        continue
+                if (hasattr(new_instance, paramKey)):
+                    setattr(new_instance, paramKey, paramValue)
+                    # print(f"\n\tSetting attr {paramKey}:{paramValue}\n")
+                    # print(f"\n\tFrom instance properties {new_instance.name}\n")
 
-        # Save the object to the storage system
-        obj.save()
-
-    except SyntaxError:
-        print("** class name missing **")
-    except NameError:
-        print("** class doesn't exist **")
-
+        new_instance.save()
+        print(new_instance.id)
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
