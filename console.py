@@ -121,16 +121,10 @@ class HBNBCommand(cmd.Cmd):
         args_list = args.split(' ')
         class_name = args_list[0]
         if class_name not in HBNBCommand.classes:
-            # print("** class doesn't exist **")
             return
 
         # create an instance of the class passed
-
-        # print(f"\n\tDo_create\n")
         new_instance = HBNBCommand.classes[class_name]()
-        # print(f"\n\tNew instance:{type(new_instance)}\n")
-        # iterate from index 1, excluding the class_name,
-        # since it isn't a parameter
         for params in (args_list[1:]):
             parameter = params.split('=')
             # check that params is correctly entered
@@ -163,9 +157,7 @@ class HBNBCommand(cmd.Cmd):
                         continue
                 if (hasattr(new_instance, paramKey)):
                     setattr(new_instance, paramKey, paramValue)
-                    # print(f"\n\tSetting attr {paramKey}:{paramValue}\n")
-                    # print(f"\n\tFrom instance properties {new_instance.name}\n")
-
+                    
         new_instance.save()
         print(new_instance.id)
     def help_create(self):
