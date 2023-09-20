@@ -114,19 +114,16 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, line):
-    """
-    Usage: create <class> <key 1>=<value 2> <key 2>=<value 2> ...
-
-    Create a new class instance with the given keys and values and print its id.
-    """
-    try:
-        if not line:
-            raise SyntaxError("Class name is missing")
-
-        # Split the input line into a list of words
-        my_list = line.split(" ")
-
-        # Create a dictionary to store keyword arguments
+        """
+        Usage: create <class> <key 1>=<value 2> <key 2>=<value 2> ...
+        Create a new class instance with the given keys and values and print its id.
+        """
+        try:
+            if not line:
+                raise SyntaxError("Class name is missing")
+            # Split the input line into a list of words
+            my_list = line.split(" ")
+            # Create a dictionary to store keyword arguments
         kwargs = {}
 
         # Iterate through the words in the list starting from index 1
