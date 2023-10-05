@@ -13,13 +13,7 @@ fi
 if [ ! -d /data/web_static/shared ]; then
     mkdir -p /data/web_static/shared
 fi
-
-# if [ ! -d /data/web_static/current ]; then
-#     mkdir -p /data/web_static/current
-# fi
-
 cd /data/web_static/releases/test || exit
-
 # create fake html file
 touch index.html
 
