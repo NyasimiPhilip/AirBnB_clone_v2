@@ -1,16 +1,16 @@
 #!/usr/bin/python3
 from fabric.api import env, put, run
-from fabric import *
 import os
-"""that distributes an archive to your web servers,"""
 
+# Replace with your actual server IP addresses
 env.hosts = ['54.146.71.185', '54.144.138.139']
-env.user = "ubuntu"
-env.key_filename = "~/.ssh/school"
 
+# Replace with your actual SSH user and key path
+env.user = 'ubuntu'
+env.key_filename = '~/.ssh/school'
 
 def do_deploy(archive_path):
-    """script that distributes an archive to your web servers"""
+    """Script that distributes an archive to your web servers"""
     if not os.path.exists(archive_path):
         return False
 
@@ -21,15 +21,15 @@ def do_deploy(archive_path):
         run('sudo mkdir -p /data/web_static/releases/web_static_{}'.
             format(archive_path_extension))
 
-        # exctract the tgz contents
+        # Extract the tgz contents
         run('sudo tar -xzf /tmp/web_static_{}.tgz -C\
              /data/web_static/releases/web_static_{}'.
             format(archive_path_extension, archive_path_extension))
 
-        # remove the archive
+        # Remove the archive
         run('sudo rm /tmp/web_static_{}.tgz'.format(archive_path_extension))
 
-        # unpack the files
+        # Unpack the files
         run('sudo mv /data/web_static/releases/web_static_{}/web_static/* \
             /data/web_static/releases/web_static_{}'.
             format(archive_path_extension, archive_path_extension))
@@ -37,11 +37,12 @@ def do_deploy(archive_path):
         run('sudo rm -rf /data/web_static/releases/web_static_{}/web_static'.
             format(archive_path_extension))
 
-        # delete this symbolic link
+        # Delete the symbolic link
         run('sudo rm -rf /data/web_static/current')
-        # create new sym link
+        # Create a new symbolic link
         run('sudo ln -s /data/web_static/releases/web_static_{}\
              /data/web_static/current'.format(archive_path_extension))
         return True
     except Exception as e:
         return False
+
