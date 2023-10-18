@@ -5,7 +5,7 @@ from time import strftime
 
 
 def do_pack():
-    """script that generates .tgz archive from the
+    """script that generates a .tgz archive from the
     contents of the web_static folder"""
     
     filedate = strftime("%Y%m%d%H%M%S")
