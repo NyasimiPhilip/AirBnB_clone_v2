@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+/'''#!/usr/bin/python3
 from fabric.api import local, env, put, run
 from fabric import *
 from time import strftime
@@ -74,4 +74,4 @@ def deploy():
     if not os.path.exists(archive_path):
         return False
 
-    return do_deploy(archive_path)
+    return do_deploy(archive_path)'''/

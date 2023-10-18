@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+/'''#!/usr/bin/python3
 from fabric.api import env, put, run
 from fabric import *
 import os
@@ -44,4 +44,4 @@ def do_deploy(archive_path):
              /data/web_static/current'.format(archive_path_extension))
         return True
     except Exception as e:
-        return False
+        return False'''/

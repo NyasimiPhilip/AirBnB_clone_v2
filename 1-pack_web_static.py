@@ -1,3 +1,4 @@
+/'''
 #!/usr/bin/python3
 from datetime import datetime
 from fabric.api import local
@@ -18,4 +19,4 @@ def do_pack():
     
     except Exception as e:
         print(e)
-        return None
+        return None'''/
